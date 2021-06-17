@@ -1,0 +1,98 @@
+.resultContainer{
+    flex-flow: row wrap;
+    width: 100%;
+}
+
+.rowWrap{
+    flex-flow: row wrap;
+}
+
+.inputBar{
+    width: 320px;
+}
+
+.flex{
+    display: flex;
+}
+
+.result{
+    flex-basis: calc(100% - 14px);
+    margin: 0px 5px 10px 5px;
+}
+
+.episode{
+    flex-basis: calc(100% - 14px);
+    margin: 0px 5px 10px 5px;
+}
+
+.border{
+    border: 2px black solid;
+}
+
+.marginAuto{
+    margin: 5px auto 10px auto;
+}
+
+.poster{
+    width: 90%;
+    display: block;
+}
+
+.hide{
+    display:none;
+}
+
+.bgRed{
+    background-color: red;
+}
+
+.textWhite{
+    color: white;
+}
+
+.textCenter{
+    text-align: center;
+}
+
+.bgBlack{
+    background-color: black;
+}
+
+.height-150{
+    height: 100px;
+}
+
+.vertCent{
+    line-height: 100px;
+    font-size: 100px;
+}
+
+.width-100per{
+    width: 100%;
+    min-width: 320px;
+}
+
+
+@media (min-width: 425px) {
+    .result{
+        flex-basis: calc(100% / 2 - 14px);
+        margin: 0px 5px 10px 5px;
+        border: 2px black solid;
+    }    
+}
+
+@media(min-width: 550px)
+{
+    .inputBar{
+        width: 550px;
+    }
+}
+
+@media(min-width: 762px){
+    .result{
+        flex-basis: calc(100% / 5 - 14px);
+        margin: 0px 5px 10px 5px;
+        border: 2px black solid;
+    }
+
+}

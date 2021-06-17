@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieDB</title>
+    <link rel="stylesheet" href="movieDB.css">
+</head>
+<body>
+    <header class="bgBlack textWhite vertCent textCenter width-100per marginAuto">What's that Show?</header>
+
+    <div class="border inputBar marginAuto ">
+        <label for="searchBox">Title:</label>
+        <input type="search" id="searchBox">
+        <label for="selectBox">Type:</label>
+        <select name="Type" id="selectBox">
+            <option>Movie</option>
+            <option>Series</option>
+            <option>Episode</option>
+        </select>
+        <label for="yearBox">Year:</label>
+        <input type="search" id="yearBox">
+        <label class="hide" for="seasonBox" id= "seasonLabel">Season:</label>
+        <input class= "hide" type="search" id="seasonBox">
+        <label class="hide" for="episodeBox" id="episodeLabel">Episode:</label>
+        <input class= "hide" type="search" id="episodeBox">
+
+        <input type="submit" style="width: 98%; display: block; margin: auto" id="submitBox">
+    </div>
+
+    <div class="hide bgRed textWhite textCenter" id="errorBox"></div>
+
+    <div class = "marginAuto flex resultContainer" id="resultContainer"></div>
+    
+    <script src="movieDB.js"></script>
+</body>
+</html>
