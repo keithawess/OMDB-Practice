@@ -2,18 +2,21 @@ const titleSearch = document.getElementById("searchBox");
 const typeSelect = document.getElementById("selectBox");
 const yearSearch = document.getElementById("yearBox");
 const submit = document.getElementById("submitBox");
-const errorBox = document.getElementById('errorBox');
+const messageBox = document.getElementById('messageBox');
 const seasonSearch = document.getElementById('seasonBox');
 const episodeSearch = document.getElementById('episodeBox');
 const seasonLabel = document.getElementById('seasonLabel');
 const episodeLabel = document.getElementById('episodeLabel');
+const messageContainer = document.getElementById('messageContainer');
+// const back = document.getElementById('back');
+// const next = document.getElementById('next');
 
 let title;
 let type;
-let year;
+let year = "";
 let season = "";
 let episode = "";
-let result;
+let page = 1;
 
 typeSelect.addEventListener("input", () => {
     if (typeSelect.value === "Episode" && seasonSearch.classList.contains('hide')) {
@@ -30,14 +33,68 @@ typeSelect.addEventListener("input", () => {
     }
 })
 
+// next.addEventListener('click', (e) =>
+// {
+//     clearResults();
+//     page++;
+//     fetch(
+//         `http://www.omdbapi.com/?apikey=6180748a&s=${title}&type=${type}${year}&page=${page}`
+//     )
+//         .then(function (response) {
+//             if (!response.ok) {
+//                 console.log(response.status);
+//             }
+//             return response.json();
+//         })
+//         .then(function (res) {
+//             console.log(res);
+//             if (res.Response == "True") {
+//                 displayResults(res.Search);
+//                 displayTotalResults(res.totalResults);
+//             }
+//             else {
+//                 messageBox.innerText = `${res.Error}`;
+//                 messageBox.classList.remove('hide');
+//             }
+//         });
+// } )
+
+// next.addEventListener('click', (e) =>
+// {
+//     clearResults();
+//     page--;
+//     fetch(
+//         `http://www.omdbapi.com/?apikey=6180748a&s=${title}&type=${type}${year}&page=${page}`
+//     )
+//         .then(function (response) {
+//             if (!response.ok) {
+//                 console.log(response.status);
+//             }
+//             return response.json();
+//         })
+//         .then(function (res) {
+//             if (res.Response == "True") {
+//                 displayResults(res.Search);
+//                 displayTotalResults(res.totalResults);
+//             }
+//             else {
+//                 messageBox.innerText = `${res.Error}`;
+//                 messageBox.classList.remove('hide');
+//             }
+//         });
+// } )
+
 submit.addEventListener("click", (e) => {
-    if (!errorBox.classList.contains("hide")) {
-        errorBox.classList.add("hide");
-        errorBox.classList.add('bgRed');
-        errorBox.classList.add('textWhite');
+    if (!messageBox.classList.contains("hide")) {
+        messageBox.classList.add("hide");
+        messageContainer.classList.add('bgRed');
+        messageBox.classList.add('textWhite');
+        back.classList.add('hide');
+        next.classList.add('hide');
     }
-    errorBox.innerText = "";
+    messageBox.innerText = "";
     clearResults();
+    page = 1;
 
 
     if (valueCheck()) {
@@ -47,7 +104,7 @@ submit.addEventListener("click", (e) => {
 
         if (type !== "Episode") {
             fetch(
-                `http://www.omdbapi.com/?apikey=6180748a&s=${title}&type=${type}&y=${year}`
+                `http://www.omdbapi.com/?apikey=6180748a&s=${title}&type=${type}${year}&page=${page}`
             )
                 .then(function (response) {
                     if (!response.ok) {
@@ -58,14 +115,11 @@ submit.addEventListener("click", (e) => {
                 .then(function (res) {
                     if (res.Response == "True") {
                         displayResults(res.Search);
-                        errorBox.innerText = `Displaying ${res.Search.length} of ${res.totalResults} results`;
-                        errorBox.classList.remove('bgRed');
-                        errorBox.classList.remove('hide');
-                        errorBox.classList.remove('textWhite');
+                        displayTotalResults(res.totalResults);
                     }
                     else {
-                        errorBox.innerText = `${res.Error}`;
-                        errorBox.classList.remove('hide');
+                        messageBox.innerText = `${res.Error}`;
+                        messageBox.classList.remove('hide');
                     }
                 });
         }
@@ -87,8 +141,8 @@ submit.addEventListener("click", (e) => {
                         displayResults(res);
                     }
                     else {
-                        errorBox.innerText = `${res.Error}`;
-                        errorBox.classList.remove('hide');
+                        messageBox.innerText = `${res.Error}`;
+                        messageBox.classList.remove('hide');
                     }
                 });
         }
@@ -104,7 +158,8 @@ function getType() {
 }
 
 function getYear() {
-    year = yearSearch.value;
+    if (yearSearch.value)
+        year = `&y=${yearSearch.value}`;
 }
 
 function getEpisode() {
@@ -139,17 +194,17 @@ function addEpisode(item) {
     if (season && episode) {
         let listing = document.createElement('div');
         listing.innerText = `Title: ${item.Title}\n
-        Year: ${item.Year}\n
-        Rating: ${item.Rated}\n
-        Released: ${item.Released}\n
-        Season: ${item.Season}\n
-        Episode: ${item.Episode}\n
-        Runtime: ${item.Runtime}\n
-        Genre: ${item.Genre}\n
-        Director: ${item.Director}\n
-        Writer: ${item.Writer}\n
-        Actors: ${item.Actors}\n
-        Plot: ${item.Plot}\n`
+            Year: ${item.Year}\n
+            Rating: ${item.Rated}\n
+            Released: ${item.Released}\n
+            Season: ${item.Season}\n
+            Episode: ${item.Episode}\n
+            Runtime: ${item.Runtime}\n
+            Genre: ${item.Genre}\n
+            Director: ${item.Director}\n
+            Writer: ${item.Writer}\n
+            Actors: ${item.Actors}\n
+            Plot: ${item.Plot}\n`
 
         listing.classList.add('episode');
         listing.classList.add('border');
@@ -169,15 +224,15 @@ function addEpisode(item) {
     else if (episode && !season) {
         let listing = document.createElement('div');
         listing.innerText = `Title: ${item.Title}\n
-    Year: ${item.Year}\n
-    Rating: ${item.Rated}\n
-    Released: ${item.Released}\n
-    Runtime: ${item.Runtime}\n
-    Genre: ${item.Genre}\n
-    Director: ${item.Director}\n
-    Writer: ${item.Writer}\n
-    Actors: ${item.Actors}\n
-    Plot: ${item.Plot}\n`
+            Year: ${item.Year}\n
+            Rating: ${item.Rated}\n
+            Released: ${item.Released}\n
+            Runtime: ${item.Runtime}\n
+            Genre: ${item.Genre}\n
+            Director: ${item.Director}\n
+            Writer: ${item.Writer}\n
+            Actors: ${item.Actors}\n
+            Plot: ${item.Plot}\n`
 
         listing.classList.add('episode');
         listing.classList.add('border');
@@ -197,9 +252,9 @@ function addSeasonEpisode(item)
 {
     let listing = document.createElement('div');
     listing.innerText = `Title: ${item.Title}\n
-    Released: ${item.Released}\n
-    Episode: ${item.Episode}\n
-    Rating: ${item.imdbRating}`
+        Released: ${item.Released}\n
+        Episode: ${item.Episode}\n
+        Rating: ${item.imdbRating}`
 
     listing.classList.add('result');
     listing.classList.add('border');
@@ -239,6 +294,7 @@ function displayResults(arr) {
 
 function clearResults() {
     document.getElementById('resultContainer').innerHTML = '';
+    messageBox.innerText = "";
 }
 
 function valueCheck() {
@@ -246,22 +302,48 @@ function valueCheck() {
 
     if (titleSearch.value) {
         if (titleSearch.value.length < 3) {
-            errorBox.innerText += "Please enter a longer title. ";
-            errorBox.classList.remove('hide');
+            messageBox.innerText += "Please enter a longer title. ";
+            messageBox.classList.remove('hide');
             check = false;
         }
         if (isNaN(yearSearch.value)) {
-            errorBox.innerText = "Please inserta valid year (YYYY)";
-            errorBox.classList.remove('hide');
+            messageBox.innerText = "Please inserta valid year (YYYY)";
+            messageBox.classList.remove('hide');
             check = false;
         }
     }
     else {
-        errorBox.innerText = "Please fill all fields.";
-        errorBox.classList.remove('hide');
+        messageBox.innerText = "Please fill all fields.";
+        messageBox.classList.remove('hide');
         check = false;
     }
     return check;
 }
 
-// displayEpisode
+function displayTotalResults(totalResults){
+    // if(totalResults < 10)
+    // {
+        messageBox.innerText = `Displaing ${totalResults} of ${totalResults}`
+        messageContainer.classList.remove('bgRed');
+        messageBox.classList.remove('hide');
+        messageBox.classList.remove('textWhite');
+    // }
+    // else if (page == 1)
+    // {
+    //     messageBox.innerText = `Displaying ${page * 10 - 9} - ${page * 10} of ${totalResults} results.`;        back.innerText = 'Previous';
+    //     next.classList.remove('hide');        
+    //     messageContainer.classList.remove('bgRed');
+    //     messageBox.classList.remove('hide');
+    //     messageBox.classList.remove('textWhite');
+
+    // } else
+    // {
+    //     messageBox.innerText = `Displaying ${page * 10 - 9} - ${page * 10} of ${totalResults} results.`;        back.innerText = 'Previous';
+    //     back.classList.remove('hide');
+    //     next.classList.remove('hide');        
+    //     messageContainer.classList.remove('bgRed');
+    //     messageBox.classList.remove('hide');
+    //     messageBox.classList.remove('textWhite');
+
+    // }
+}

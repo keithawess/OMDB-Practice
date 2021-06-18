@@ -29,8 +29,11 @@
         <input type="submit" style="width: 98%; display: block; margin: auto" id="submitBox">
     </div>
 
-    <div class="hide bgRed textWhite textCenter" id="errorBox"></div>
-
+    <div class="flex justifyCenter bgRed marginAuto" id="messageContainer">    
+        <button class="hide marginSides5" id="back">Back</button>
+        <div class="hide textWhite textCenter" id="messageBox"></div>
+        <button class="hide marginSides5" id="next">Next</button>
+    </div>
     <div class = "marginAuto flex resultContainer" id="resultContainer"></div>
     
     <script src="movieDB.js"></script>

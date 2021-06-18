@@ -72,6 +72,15 @@
     min-width: 320px;
 }
 
+.justifyCenter{
+    justify-content: center;
+}
+
+.marginSides5{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 
 @media (min-width: 425px) {
     .result{
