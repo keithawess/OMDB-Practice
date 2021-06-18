@@ -323,7 +323,7 @@ function valueCheck() {
 function displayTotalResults(totalResults){
     // if(totalResults < 10)
     // {
-        messageBox.innerText = `Displaing ${totalResults} of ${totalResults}`
+        messageBox.innerText = `Displaing 10 of ${totalResults}`
         messageContainer.classList.remove('bgRed');
         messageBox.classList.remove('hide');
         messageBox.classList.remove('textWhite');
